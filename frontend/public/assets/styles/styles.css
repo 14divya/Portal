@@ -1,0 +1,118 @@
+*{
+    box-sizing: border-box;
+}
+header{
+    width: 100%;
+}
+.logo{
+    padding: 10px;
+    margin-top: 15px;
+    
+}
+.eapllogo{
+    float: left;
+}
+.navbar-collapse{
+    font-size: 20px;
+    padding: 10px;
+    background-color: #006b9e;
+    
+}
+.nav-link{
+    text-decoration: none;
+    color: white;
+}
+.form-inline{
+    float: right;
+}
+.carousel-inner{
+    background-color: #007aff;
+    
+    width: 100%;
+    
+}
+.carousel{
+    width: 100%;
+}
+.sliding{
+    margin: 11px;
+}
+.desc{
+    margin-top: 30px;
+    
+}
+.group-products{
+    width: 90%;
+}
+pre{
+    font-family:sans-serif;
+}
+
+a .sign .login{
+    width: 100px;
+    color: blue;
+}
+.partner{
+    float: right;
+}
+footer{
+    padding: 10px;
+    background-color: gray;
+    text-align: center;
+    margin-top: 5px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.newsletter {
+    margin-top: 30px;
+    padding: 50px 0;
+    background: #007aff;
+    }
+    
+    .newsletter .content {
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative; 
+} 
+    .newsletter .content h5 {
+    color: #243c4f;
+    margin-bottom: 30px; }
+    .newsletter .content .form-control {
+    height: 50px;
+    border-color: #ffffff;
+    border-radius:0;
+    }
+    .newsletter .content.form-control:focus {
+    box-shadow: none;
+    border: 2px solid #243c4f;
+    }
+    .newsletter .content .btn {
+    min-height: 50px; 
+    border-radius:0;
+    background: #243c4f;
+    color: #fff;
+    font-weight:600;
+    }
+.productList{
+    width: max-content;
+}
+.productListHeading{
+    text-align: center;
+    background-color: #007aff;
+    border-radius: 5px;
+    padding: 4px;
+}
+.productListHeading h6{
+    margin-top: 8px;
+}
+hr{
+    padding: 30px;
+    background-color: #FF5E0E;
+    color: #FF5E0E;
+    border: none;
+}
+li{
+    list-style-type: none;
+}

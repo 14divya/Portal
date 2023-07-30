@@ -7,6 +7,8 @@ const createProduct = asyncHandler(async (request, response) => {
     var post_data = request.body;
 
     var title = post_data.title;
+    console.log(title);
+    console.log(post_data.category);
     if(title==null){
         response.json("Provide a title");
     }
@@ -18,7 +20,8 @@ const createProduct = asyncHandler(async (request, response) => {
 
     if (findProduct == null && findApprovedProduct == null) {
         const newProduct = await productModel.create(product);
-        response.json(newProduct._id);
+        console.log(newProduct.id);
+        response.json(newProduct.id);
     }
     else {
         response.json("Product already exists");
@@ -40,6 +43,7 @@ const createAllProduct = asyncHandler(async (request, response) => {
 
     if (findProduct == null) {
         const newProduct = await productModel.create(product);
+        
         response.json(newProduct._id);
     }
     else {
@@ -134,8 +138,10 @@ var uploadImages = asyncHandler(async (request, response, next) => {
     try {
         const urls = [];
         const files = request.files
+        
         for (const file of files) {
             const { path } = file;
+            console.log(path);
             urls.push(path);
         }
         const findProduct = await productModel.findByIdAndUpdate(id, {

@@ -96,9 +96,7 @@ const getAUser = asyncHandler(async (request, response) => {
     try {
         const findUser = await userModel.findOne({ 'email': email });
         if (findUser != null) {
-            response.json({
-                'role':findUser.role,
-            });
+            response.json(findUser);
         }
     } catch (error) {
         throw new Error(error);
