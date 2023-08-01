@@ -38,6 +38,7 @@ function ModifyProduct() {
 
     const handlePdf = (e) => {
         setPdf(e.target.files);
+        console.log(pdf);
 
     }
 
@@ -76,7 +77,7 @@ function ModifyProduct() {
                 <br />
                 <li className="list-group-item" style={{ textAlign: 'left', padding: '20px', margin: 'auto', fontSize: '20px' }}>{product.title}
                     <div style={{ float: 'right', margin: 'auto', display: 'inline-block', top: '0px', right: '0px' }}>
-                        <button type="button" className="btn btn-primary" id="toggleForm" onClick={() => handleOnClick(product._id)}>Update</button>
+                    <button type="button" className="btn btn-primary" id="toggleForm">Update</button>
                     </div>
                 </li>
                 <br />
@@ -93,13 +94,13 @@ function ModifyProduct() {
         const op = "modify";
         const img = imageRef.current;
         const doc = docRef.current;
-        // const rotation = rotationRef.current.value;
+        const rotation = rotationRef.current;
 
         console.log(title, desc, feat, app, cat, img, doc, rotation);
-        addProductToDB(title, desc, feat, app, cat, op, img, doc);
+        addProductToDB(title, desc, feat, app, cat, op, img, doc, rotation);
     }
 
-    async function addProductToDB(title, desc, feat, app, cat, op, img, doc) {
+    async function addProductToDB(title, desc, feat, app, cat, op, img, doc, rotation) {
         try {
             const { status, data } = await axios.post("http://localhost:42342/product/updateCreate",
                 {
@@ -109,8 +110,9 @@ function ModifyProduct() {
                     features: feat,
                     applications: app,
                     op: op,
-                    images:img,
-                    document:doc,
+                    images: img,
+                    document: doc,
+                    rotation: rotation,
                 }).then(res => {
                     console.log("id before setting", res);
                     setId(res.data);
@@ -150,18 +152,18 @@ function ModifyProduct() {
 
         const { status, data } = await axios.put("http://localhost:42342/product/uploaddoc/" + id,
             formData);
-        // addRotation(id);
+        addRotation(id);
     }
 
-    // async function addRotation(id) {
-    //     var formData = new FormData();
-    //     for (const file of rotation) {
-    //         formData.append('rotation', file);
-    //     }
+    async function addRotation(id) {
+        var formData = new FormData();
+        for (const file of rotation) {
+            formData.append('rotation', file);
+        }
 
-    //     const { status, data } = await axios.put("http://localhost:42342/product/upload/rotation/" + id,
-    //         formData);
-    // }
+        const { status, data } = await axios.put("http://localhost:42342/product/upload/rotation/" + id,
+            formData);
+    }
 
     function handleOnClick(e) {
         // setProductId(e);
@@ -180,7 +182,7 @@ function ModifyProduct() {
             })
     }
 
-    function autofillForm(title, category, description, features, applications,images,document,rotation) {
+    function autofillForm(title, category, description, features, applications, images, document, rotation) {
         titleRef.current.value = title;
         catRef.current.value = category;
         descRef.current.value = description;
@@ -195,10 +197,10 @@ function ModifyProduct() {
         rotationRef.current = rotation;
         console.log(rotationRef.current);
         // setProduct(title,category,description,features, applications,images,document,rotation)
-        
+
     }
 
-    
+
 
     return (
         <React.Fragment>

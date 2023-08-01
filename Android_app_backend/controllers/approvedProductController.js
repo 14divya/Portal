@@ -104,6 +104,44 @@ var uploadImages = asyncHandler(async (request, response, next) => {
 
 })
 
+var storageRotation = multer.diskStorage({
+    destination: function (req, file, cb) {
+        // cb(null, 'uploads')
+        cb(null, '/home/divya/AndroidStudioProjects/EAPL/app/src/main/assets/images')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+var uploadRotation = multer({ storage: storageRotation })
+
+var uploadImagesRotation = asyncHandler(async (request, response, next) => {
+    const { id } = request.params;
+    try {
+        const urls = [];
+        const files = request.files
+        for (const file of files) {
+            const { path } = file;
+            urls.push(path);
+        }
+        const findProduct = await productModel.findByIdAndUpdate(id, {
+            rotation: urls.map((file) => {
+                return file;
+            }),
+        },
+            {
+                new: true,
+            }
+        );
+        response.json(findProduct);
+        console.log(findProduct.images[0].substr(65));
+    } catch (error) {
+        throw new Error(error);
+    }
+
+})
+
+
 var storageVideo = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'videos')
@@ -202,5 +240,7 @@ module.exports = {
     getProductByOp,
     getProductByTitle,
     getProductById,
-    deleteProduct
+    deleteProduct,
+    uploadRotation,
+    uploadImagesRotation,
 }

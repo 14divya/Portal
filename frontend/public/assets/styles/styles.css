@@ -1,61 +1,83 @@
-*{
+* {
     box-sizing: border-box;
 }
-header{
+
+header {
     width: 100%;
-}
-.logo{
-    padding: 10px;
-    margin-top: 15px;
-    
-}
-.eapllogo{
-    float: left;
-}
-.navbar-collapse{
-    font-size: 20px;
-    padding: 10px;
-    background-color: #006b9e;
-    
-}
-.nav-link{
-    text-decoration: none;
-    color: white;
-}
-.form-inline{
-    float: right;
-}
-.carousel-inner{
-    background-color: #007aff;
-    
-    width: 100%;
-    
-}
-.carousel{
-    width: 100%;
-}
-.sliding{
-    margin: 11px;
-}
-.desc{
-    margin-top: 30px;
-    
-}
-.group-products{
-    width: 90%;
-}
-pre{
-    font-family:sans-serif;
 }
 
-a .sign .login{
+.logo {
+    padding: 10px;
+    margin-top: 15px;
+
+}
+
+.eapllogo {
+    float: left;
+}
+
+.navbar-collapse {
+    font-size: 20px;
+    padding: 10px;
+    background-color: #2485b2;
+
+}
+
+li .nav-item Link .nav-link {
+    text-decoration: none;
+    color: black;
+}
+
+Link .nav-link:hover {
+    color: #ffffff;
+}
+
+.nav {
+    border: 1px #FF5E0E;
+}
+
+.form-inline {
+    float: right;
+}
+
+.carousel-inner {
+    background-color: #007aff;
+
+    width: 100%;
+
+}
+
+.carousel {
+    width: 100%;
+}
+
+.sliding {
+    margin: 11px;
+}
+
+.desc {
+    margin-top: 30px;
+
+}
+
+.group-products {
+    width: 90%;
+}
+
+pre {
+    font-family: sans-serif;
+}
+
+a .sign .login {
     width: 100px;
     color: blue;
 }
-.partner{
+
+.partner {
     float: right;
 }
-footer{
+
+footer {
     padding: 10px;
     background-color: gray;
     text-align: center;
@@ -64,55 +86,106 @@ footer{
     bottom: 0;
     width: 100%;
 }
+
 .newsletter {
     margin-top: 30px;
     padding: 50px 0;
     background: #007aff;
-    }
-    
-    .newsletter .content {
+}
+
+.newsletter .content {
     max-width: 650px;
     margin: 0 auto;
     text-align: center;
-    position: relative; 
-} 
-    .newsletter .content h5 {
+    position: relative;
+}
+
+.newsletter .content h5 {
     color: #243c4f;
-    margin-bottom: 30px; }
-    .newsletter .content .form-control {
+    margin-bottom: 30px;
+}
+
+.newsletter .content .form-control {
     height: 50px;
     border-color: #ffffff;
-    border-radius:0;
-    }
-    .newsletter .content.form-control:focus {
+    border-radius: 0;
+}
+
+.newsletter .content.form-control:focus {
     box-shadow: none;
     border: 2px solid #243c4f;
-    }
-    .newsletter .content .btn {
-    min-height: 50px; 
-    border-radius:0;
+}
+
+.newsletter .content .btn {
+    min-height: 50px;
+    border-radius: 0;
     background: #243c4f;
     color: #fff;
-    font-weight:600;
-    }
-.productList{
+    font-weight: 600;
+}
+
+.productList {
     width: max-content;
 }
-.productListHeading{
+
+.productListHeading {
     text-align: center;
     background-color: #007aff;
     border-radius: 5px;
     padding: 4px;
 }
-.productListHeading h6{
+
+.productListHeading h6 {
     margin-top: 8px;
 }
-hr{
+
+hr {
     padding: 30px;
     background-color: #FF5E0E;
     color: #FF5E0E;
     border: none;
 }
-li{
+
+li {
     list-style-type: none;
+}
+
+.loginForm {
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    top: 0;
+    height: 800px;
+}
+
+.loginCard {
+    width: 40%;
+    height: 60%;
+    margin: auto;
+    padding: auto;
+}
+
+.form-group .form-control{
+    width:50%;
+}
+
+form input{
+    margin: auto;
+}
+
+.productHeading{
+    text-align: left;
+}
+.productDetails{
+    margin: 1%
+}
+.productCategory{
+    text-align: start;
+}
+.productDescription{
+    text-align: start;
+}
+.productFeatures{
+    text-align: start;
+}
+.productApplications{
+    text-align: start;
 }

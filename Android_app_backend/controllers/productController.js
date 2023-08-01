@@ -2,6 +2,7 @@ const productModel = require("../models/product");
 const asyncHandler = require('express-async-handler');
 const multer = require('multer');
 const approvedProductModel = require("../models/approvedProduct");
+const portalProduct = require("../models/portalProduct");
 
 const createProduct = asyncHandler(async (request, response) => {
     var post_data = request.body;
@@ -64,13 +65,13 @@ const createUpdatedProduct = asyncHandler(async (request, response) => {
     const findProduct = await productModel.findOne({ 'title': title });
     // const findApprovedProduct = await approvedProductModel.findOne({ 'title': title });
 
-    if (findProduct == null) {
+    // if (findProduct == null) {
         const newProduct = await productModel.create(product);
         response.json(newProduct._id);
-    }
-    else {
+    // }
+    // else {
         response.json("Product already exists");
-    }
+    
 })
 
 const getProducts = asyncHandler(async (request, response) => {
@@ -113,7 +114,8 @@ const getProductByTitle = asyncHandler(async (request, response) => {
 })
 
 const getProductById = asyncHandler(async (request, response) => {
-    const id = request.params._id;
+    const {id} = request.params;
+    console.log(id);
     const getProduct = await productModel.find({ '_id': id })
     if (getProduct != null) {
         response.json(getProduct)
@@ -128,10 +130,25 @@ var storage = multer.diskStorage({
         cb(null, '/home/divya/AndroidStudioProjects/EAPL/app/src/main/res/drawable')
     },
     filename: function (req, file, cb) {
+       
         cb(null, file.originalname)
     }
 })
+
+var storage1 = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/home/divya/Documents/Portal/frontend/public/assets/productImages')
+        // cb(null, '/home/divya/AndroidStudioProjects/EAPL/app/src/main/res/drawable')
+    },
+    filename: function (req, file, cb) {
+        console.log(file.originalname);
+        cb(null, file.originalname)
+    }
+})
+
 var upload = multer({ storage: storage })
+
+var upload1 = multer({ storage: storage1 })
 
 var uploadImages = asyncHandler(async (request, response, next) => {
     const { id } = request.params;
@@ -161,6 +178,34 @@ var uploadImages = asyncHandler(async (request, response, next) => {
 
 })
 
+var uploadImages1 = asyncHandler(async (request, response, next) => {
+    const { id } = request.params;
+    try {
+        const urls = [];
+        const files = request.files
+        
+        for (const file of files) {
+            const { path } = file;
+            console.log(path);
+            urls.push(path);
+        }
+        const findProduct = await portalProduct.findByIdAndUpdate(id, {
+            images: urls.map((file) => {
+                return file;
+            }),
+        },
+            {
+                new: true,
+            }
+        );
+        response.json(findProduct);
+        console.log(findProduct.images[0].substr(65));
+    } catch (error) {
+        throw new Error(error);
+    }
+
+})
+
 var storageRotation = multer.diskStorage({
     destination: function (req, file, cb) {
         // cb(null, 'uploads')
@@ -171,6 +216,17 @@ var storageRotation = multer.diskStorage({
     }
 })
 var uploadRotation = multer({ storage: storageRotation })
+
+var storageRotation1 = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/home/divya/Documents/Portal/frontend/public/assets/rotation')
+        // cb(null, '/home/divya/AndroidStudioProjects/EAPL/app/src/main/assets/images')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+var uploadRotation1 = multer({ storage: storageRotation1 })
 
 var uploadImagesRotation = asyncHandler(async (request, response, next) => {
     const { id } = request.params;
@@ -198,6 +254,31 @@ var uploadImagesRotation = asyncHandler(async (request, response, next) => {
 
 })
 
+var uploadImagesRotation1 = asyncHandler(async (request, response, next) => {
+    const { id } = request.params;
+    try {
+        const urls = [];
+        const files = request.files
+        for (const file of files) {
+            const { path } = file;
+            urls.push(path);
+        }
+        const findProduct = await portalProduct.findByIdAndUpdate(id, {
+            rotation: urls.map((file) => {
+                return file;
+            }),
+        },
+            {
+                new: true,
+            }
+        );
+        response.json(findProduct);
+        console.log(findProduct.images[0].substr(65));
+    } catch (error) {
+        throw new Error(error);
+    }
+
+})
 
 var storageVideo = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -210,6 +291,18 @@ var storageVideo = multer.diskStorage({
 })
 
 var uploadvideos = multer({ storage: storageVideo })
+
+var storageVideo1 = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'videos')
+        // cb(null, '/home/divya/AndroidStudioProjects/EAPL/app/src/main/res/raw')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+
+var uploadvideos1 = multer({ storage: storageVideo1 })
 
 var uploadVideo = asyncHandler(async (request, response, next) => {
     const { id } = request.params;
@@ -241,8 +334,19 @@ var storageDocs = multer.diskStorage({
     }
 })
 
-
 var uploaddocs = multer({ storage: storageDocs })
+
+var storageDocs1 = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/home/divya/Documents/Portal/frontend/public/assets/document')
+        // cb(null,'/home/divya/AndroidStudioProjects/EAPL/app/src/main/assets')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+
+var uploaddocs1 = multer({ storage: storageDocs1 })
 
 var uploadDocs = asyncHandler(async (request, response, next) => {
     const { id } = request.params;
@@ -260,6 +364,41 @@ var uploadDocs = asyncHandler(async (request, response, next) => {
         );
         response.json(findProduct);
         console.log(findProduct.document.substring(61));
+    } catch (error) {
+        throw new Error(error);
+    }
+})
+
+var uploadDocs1 = asyncHandler(async (request, response, next) => {
+    const { id } = request.params;
+    try {
+        const files = request.file.path;
+        console.log(files);
+        const path = files;
+        console.log(path)
+        const findProduct = await portalProduct.findByIdAndUpdate(id, {
+            document: path,
+        },
+            {
+                new: true,
+            }
+        );
+        response.json(findProduct);
+        console.log(findProduct.document.substring(61));
+    } catch (error) {
+        throw new Error(error);
+    }
+})
+
+var updateProduct = asyncHandler(async (request, response) => {
+    const { id } = request.params;
+    var post_data = request.body;
+    console.log("title:",post_data.title);
+    console.log("id",id);
+
+    try {
+        const updatedProduct = await productModel.findByIdAndUpdate(id, post_data, { new: true, });
+        response.json(updatedProduct);
     } catch (error) {
         throw new Error(error);
     }
@@ -290,9 +429,17 @@ module.exports = {
     uploaddocs,
     uploadDocs,
     uploadImagesRotation,
+    uploadDocs1,
+    uploadImagesRotation1,
+    uploadImages1,
     uploadRotation,
     getProductByOp,
     getProductByTitle,
     getProductById,
     deleteProduct,
+    upload1,
+    uploadRotation1,
+    uploadvideos1,
+    uploaddocs1,
+    updateProduct,
 }
