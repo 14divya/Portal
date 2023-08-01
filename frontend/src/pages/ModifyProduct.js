@@ -5,12 +5,12 @@ import styled from 'styled-components';
 
 function ModifyProduct() {
 
-    var [data, setData] = useState([]);
+    var [data1, setData1] = useState([]);
     const [pid, setId] = useState();
     const [images, setImages] = useState([]);
     const [pdf, setPdf] = useState();
-    const [rotation, setRotation] = useState();
-    const [product, setProduct] = useState();
+    const [rotation, setRotation] = useState([]);
+    const [products, setProducts] = useState([]);
 
     const titleRef = useRef();
     const descRef = useRef();
@@ -18,7 +18,7 @@ function ModifyProduct() {
     const appRef = useRef();
     const catRef = useRef();
     const imageRef = useRef([]);
-    const docRef = useRef([]);
+    const docRef = useRef();
     const rotationRef = useRef([]);
 
     const Button = styled.button`
@@ -61,23 +61,29 @@ function ModifyProduct() {
 
     async function getDetails(text) {
         var list = document.getElementById("productList")
-        var details = axios.get("http://localhost:42342/approved/" + text)
+        var details = await axios.get("http://localhost:42342/approved/" + text)
             .then(res => {
                 console.log(res);
                 console.log(res.data[0]._id);
-                setData(res.data);
+                console.log(res.data);
+                console.log(res.data[0]);
+                setData1(res.data);
+                data1 = res.data;
+                console.log(data1);
             })
     }
 
-    var products = data;
+    // setProducts(data1);
+    // var products = data1;
 
-    var proDetails = products.map((product, index) => {
+    var proDetails = data1.map((product, index) => {
+        console.log(product.title);
         return <div>
             <div key={index}>
                 <br />
                 <li className="list-group-item" style={{ textAlign: 'left', padding: '20px', margin: 'auto', fontSize: '20px' }}>{product.title}
                     <div style={{ float: 'right', margin: 'auto', display: 'inline-block', top: '0px', right: '0px' }}>
-                    <button type="button" className="btn btn-primary" id="toggleForm">Update</button>
+                        <button type="button" className="btn btn-primary" id="toggleForm" onClick={handleOnClick}>Update</button>
                     </div>
                 </li>
                 <br />
@@ -96,7 +102,7 @@ function ModifyProduct() {
         const doc = docRef.current;
         const rotation = rotationRef.current;
 
-        console.log(title, desc, feat, app, cat, img, doc, rotation);
+        console.log(title, desc, feat, app, cat, op, img, doc, rotation);
         addProductToDB(title, desc, feat, app, cat, op, img, doc, rotation);
     }
 
@@ -113,72 +119,100 @@ function ModifyProduct() {
                     images: img,
                     document: doc,
                     rotation: rotation,
-                }).then(res => {
+                }).
+                then(res => {
                     console.log("id before setting", res);
                     setId(res.data);
                     const id = res.data;
                     console.log("id after setting", res.data);
-                    addImages(id);
+                    return (id);
+                }).
+                then((id) => {
+                    console.log(id);
+                    var formData = new FormData();
+                    for (const file of images) {
+                        formData.append('images', file);
+                    }
+
+                    axios.put("http://localhost:42342/approved/upload/" + id,
+                        formData);
+                    var formData = new FormData();
+                    for (const file of pdf) {
+                        formData.append('doc', file);
+                    }
+
+                    axios.put("http://localhost:42342/approved/uploaddoc/" + id,
+                        formData);
+                    var formData = new FormData();
+                    for (const file of rotation) {
+                        formData.append('rotation', file);
+                        console.log(formData);
+                    }
+                    axios.put("http://localhost:42342/approved/upload/rotation/" + id,
+                        formData);
+
                 });
-            if (status === 200) {
-                alert(data.message);
-            }
+
+
         } catch (error) {
-            alert(error);
+            alert("Update request sent");
+            window.location.replace('/staff');
         }
     }
 
-    async function addImages(id) {
-        try {
-            console.log(id);
-            var formData = new FormData();
-            for (const file of images) {
-                formData.append('images', file);
-            }
+    // async function addImages(id) {
+    //     try {
+    //         console.log(id);
+    //         var formData = new FormData();
+    //         for (const file of images) {
+    //             formData.append('images', file);
+    //         }
 
-            const { status, data } = await axios.put("http://localhost:42342/product/upload/" + id,
-                formData);
-            addPdf(id);
-        } catch (error) {
-            alert(error);
-        }
-    }
+    //         const { status, data } = await axios.put("http://localhost:42342/product/upload/" + id,
+    //             formData);
+    //         addPdf(id);
+    //     } catch (error) {
+    //         alert(error);
+    //     }
+    // }
 
-    async function addPdf(id) {
-        var formData = new FormData();
-        for (const file of pdf) {
-            formData.append('doc', file);
-        }
+    // async function addPdf(id) {
+    //     var formData = new FormData();
+    //     for (const file of pdf) {
+    //         formData.append('doc', file);
+    //     }
 
-        const { status, data } = await axios.put("http://localhost:42342/product/uploaddoc/" + id,
-            formData);
-        addRotation(id);
-    }
+    //     const { status, data } = await axios.put("http://localhost:42342/product/uploaddoc/" + id,
+    //         formData);
+    //     addRotation(id);
+    // }
 
-    async function addRotation(id) {
-        var formData = new FormData();
-        for (const file of rotation) {
-            formData.append('rotation', file);
-        }
+    // async function addRotation(id) {
+    //     var formData = new FormData();
+    //     for (const file of rotation) {
+    //         formData.append('rotation', file);
+    //     }
 
-        const { status, data } = await axios.put("http://localhost:42342/product/upload/rotation/" + id,
-            formData);
-    }
+    //     const { status, data } = await axios.put("http://localhost:42342/product/upload/rotation/" + id,
+    //         formData);
+    // }
 
     function handleOnClick(e) {
         // setProductId(e);
-        var id = e;
-        console.log(id);
-        getProductWithId(id)
+        // var id = e;
+        console.log(data1[0]._id);
+        getProductWithId(data1[0]._id);
     };
 
     async function getProductWithId(id) {
-        var details = await axios.get("http://localhost:42342/approved/id/" + id)
+        await axios.get("http://localhost:42342/approved/id/" + id)
             .then(res => {
                 console.log(res.data[0].title);
-                var product = res.data[0];
-                console.log(product.rotation);
-                autofillForm(product.title, product.category, product.description, product.features, product.applications, product.images, product.document, product.rotation);
+                // var product = res.data[0];
+                // console.log(product.rotation);
+                console.log(data1[0].title)
+                console.log(data1[0].category)
+                autofillForm(data1[0].title, data1[0].category, data1[0].description, data1[0].features, data1[0].applications, data1[0].images, data1[0].document, data1[0].rotation);
             })
     }
 
@@ -191,6 +225,7 @@ function ModifyProduct() {
         console.log(images);
         imageRef.current = images;
         console.log(imageRef.current);
+        console.log(document);
         docRef.current = document;
         console.log(docRef.current);
         console.log(rotation);

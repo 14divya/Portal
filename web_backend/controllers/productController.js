@@ -69,7 +69,7 @@ const createUpdatedProduct = asyncHandler(async (request, response) => {
         response.json(newProduct._id);
     // }
     // else {
-        response.json("Product already exists");
+        // response.json("Product already exists");
     
 })
 

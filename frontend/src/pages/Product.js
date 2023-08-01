@@ -50,17 +50,17 @@ function Product() {
     }
 
     function rotationFunc() {
-        
+
         var rot = document.getElementsByClassName('rotation')[0];
         console.log(details[0].rotation);
-        for (let i=0;i<details[0].rotation.length;i++) {
+        for (let i = 0; i < details[0].rotation.length; i++) {
             console.log(details[0].rotation[i].substring(45));
             const div = document.createElement('div');
             div.className = 'mySlides';
             var img = document.createElement('img');
 
             img.style.margin = '0 auto';
-            
+
             div.appendChild(img);
             img.src = details[0].rotation[i].substring(45);
             img.style.width = '100%';
@@ -95,24 +95,31 @@ function Product() {
         var document = details[0].document;
         var rotation = details[0].rotation;
 
-        
-            const { status, data } = await axios.post("http://localhost:42342/approved/create",
-                {
-                    title: title,
-                    category: category,
-                    description: description,
-                    features: features,
-                    applications: applications,
-                    images: images,
-                    document: document,
-                    rotation: rotation,
 
-                }).then(res => {
-                    alert("Item inserted");
-                    window.location.replace("/admin");
-                    console.log(res.data);
-                })
-        
+        const { status, data } = await axios.post("http://localhost:42342/approved/create",
+            {
+                title: title,
+                category: category,
+                description: description,
+                features: features,
+                applications: applications,
+                images: images,
+                document: document,
+                rotation: rotation,
+
+            }).then(res => {
+                alert("Item inserted");
+                window.location.replace("/admin");
+                console.log(res.data);
+                var id = details[0]._id;
+                console.log(id);
+                axios.delete("http://localhost:42342/product/delete/" + id)
+                    .then(() => {
+                        alert("Item deleted");
+                        window.location.replace("/admin");
+                    })
+            })
+
     }
 
     async function onReject() {
