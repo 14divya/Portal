@@ -13,10 +13,14 @@ function Staff() {
 
     var [data, setData] = useState([]);
     const [pid, setId] = useState();
-    const [images, setImages] = useState([]);
-    const [pdf, setPdf] = useState();
-    const [rotation, setRotation] = useState([]);
+    // const [images, setImages] = useState([]);
+    // const [pdf, setPdf] = useState();
+    // const [rotation, setRotation] = useState([]);
     const [product, setProduct] = useState();
+
+    var images = []
+    var pdf = ""
+    var rotation = []
 
     const titleRef = useRef();
     const descRef = useRef();
@@ -58,18 +62,21 @@ function Staff() {
     cursor: pointer;
   `;
     const handleImageUpload = (e) => {
-        setImages(e.target.files);
+        // setImages(e.target.files);
+        images = e.target.files;
         console.log(images);
     }
 
     const handlePdf = (e) => {
-        setPdf(e.target.files);
+        // setPdf(e.target.files);
+        pdf = e.target.files;
         console.log(pdf);
 
     }
 
     const handleRotation = (e) => {
-        setRotation(e.target.files);
+        // setRotation(e.target.files);
+        rotation = e.target.files;
         console.log(rotation);
     }
 

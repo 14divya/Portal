@@ -139,12 +139,7 @@ footer {
     margin-top: 8px;
 }
 
-hr {
-    padding: 30px;
-    background-color: #FF5E0E;
-    color: #FF5E0E;
-    border: none;
-}
+
 
 li {
     list-style-type: none;
@@ -188,4 +183,42 @@ form input{
 }
 .productApplications{
     text-align: start;
+}
+.magnify-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.left {
+    display: flex;
+    height: 50vh;
+}
+.left_1 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+.img_wrap {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #eee;
+    cursor: pointer;
+}
+.img_wrap img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+.left_2{
+    margin-top: 50px;
+    width: 100%;
+    height: 100%;
+    margin-left: 10px;
+}
+.left_2 img {
+    width: 500px;
+    height: 100%;
+    object-fit: contain;
 }

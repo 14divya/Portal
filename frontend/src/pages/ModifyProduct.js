@@ -51,11 +51,11 @@ function ModifyProduct() {
         console.log(e.target.innerText);
         var text = e.target.innerText;
         btn.textContent = text;
-        var activeLink = document.querySelector(".option .active");
-        if (activeLink) {
-            activeLink.classList.remove("active");
-        }
-        activeLink.classList.add("active");
+        // var activeLink = document.querySelector(".option .active");
+        // if (activeLink) {
+        //     activeLink.classList.remove("active");
+        // }
+        // activeLink.classList.add("active");
         getDetails(text);
     }
 
@@ -63,13 +63,17 @@ function ModifyProduct() {
         var list = document.getElementById("productList")
         var details = await axios.get("http://localhost:42342/approved/" + text)
             .then(res => {
-                console.log(res);
-                console.log(res.data[0]._id);
-                console.log(res.data);
-                console.log(res.data[0]);
-                setData1(res.data);
-                data1 = res.data;
-                console.log(data1);
+                try {
+                    console.log(res);
+                    console.log(res.data[0]._id);
+                    console.log(res.data);
+                    console.log(res.data[0]);
+                    setData1(res.data);
+                    data1 = res.data;
+                    console.log(data1);
+                } catch (error) {
+                    alert("No product to display");
+                }
             })
     }
 
@@ -255,31 +259,32 @@ function ModifyProduct() {
                         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <Link className="nav-link" aria-current="page" to="/">Home</Link>
+                                    <Link className="nav-link active" aria-current="page" to="/" style={{ color: '#fff' }}>Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" href="/about">About Us</Link>
+                                    <a className="nav-link" href="/#about" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>About</a>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/products" tabIndex="-1" aria-disabled="true">Products</Link>
+                                    <Link className="nav-link" to="/products" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>Products</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/#contact" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>Contact</a>
                                 </li>
                             </ul>
                             <form className="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-outline-success" style={{ color: 'white', backgroundColor: 'coral' }} type="submit">Search</button>
-                                <Link className="sign" to="/signup"><button className="btn btn-primary me-md-2 sign" style={{ width: '150px' }} type="button">Sign up</button></Link>
-                                <Link to="/login"><button className="btn btn-primary " style={{ width: '150px' }} type="button">Login</button></Link>
+                                <Link to="/login"><button className="btn btn-primary " style={{ width: '150px' }} type="button">Log out</button></Link>
                             </form>
                         </div>
                     </div>
                 </nav>
+
                 <br />
 
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-2 dropdown">
                             <ul className="list-group dropdown-options" id="list">
-                                <li className="option"><a href="#" className="list-group-item active" aria-current="true" value="electronic_timers" onMouseDown={clickFn}>Electronic Timers</a></li>
+                                <li className="option"><a href="#" className="list-group-item" aria-current="true" value="electronic_timers" onMouseDown={clickFn}>Electronic Timers</a></li>
                                 <li className="option"><a href="#" className="list-group-item" value="time_switches" onMouseDown={clickFn}>Time Switches</a></li>
                                 <li className="option"><a href="#" className="list-group-item" value="combination_timers" onMouseDown={clickFn}>Combination Timers</a></li>
                                 <li className="option"><a href="#" className="list-group-item" value="digital_timers" onMouseDown={clickFn}>Digital Timers</a></li>
@@ -384,6 +389,9 @@ function ModifyProduct() {
                         </div>
                     </div>
                 </div>
+                <footer>
+                    <div className="container-fluid">EAPL&copy;Electronics Automation Private Limited</div>
+                </footer>
             </div>
         </React.Fragment >
     )

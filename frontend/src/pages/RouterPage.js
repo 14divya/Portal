@@ -6,6 +6,8 @@ import ModifyProduct from './ModifyProduct';
 import Staff from './Staff';
 import Admin from './Admin';
 import Product from './Product';
+import DeleteProduct from './DeleteProduct';
+import AllProducts from './AllProducts';
 
 export default function RouterPage() {
     return (
@@ -18,6 +20,8 @@ export default function RouterPage() {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/admin" element={<Admin/>}/>
                     <Route path="/product" element={<Product/>}/>
+                    <Route path="/remove" element={<DeleteProduct/>}/>
+                    <Route path="/products" element={<AllProducts/>}/>
                 </Routes>
             </Router>
 

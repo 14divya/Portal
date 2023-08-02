@@ -4,6 +4,7 @@ import axios from 'axios';
 import ImageMagnify from "react-image-magnify";
 import Slider from "react-slick";
 import styled from 'styled-components';
+import ReactImageMagnify from 'react-image-magnify';
 
 function Product() {
     let location = useLocation();
@@ -18,10 +19,14 @@ function Product() {
     useEffect(() => {
         axios.get("http://localhost:42342/product/id/" + id)
             .then(res => {
+                // try{
                 console.log(res.data);
                 details = res.data;
                 console.log(details);
                 setDetails(res.data);
+                // }catch(error){
+                //     alert("No product to display");
+                // }
             })
     }, [])
 
@@ -94,32 +99,52 @@ function Product() {
         var images = details[0].images;
         var document = details[0].document;
         var rotation = details[0].rotation;
+        var op = details[0].op;
+        var id = details[0]._id;
+
+        if (op == "delete") {
+            console.log(title);
+            await axios.get("http://localhost:42342/approved/title/" + title)
+                .then((res) => {
+                    console.log(res.data[0]._id);
+                    axios.delete("http://localhost:42342/approved/delete/" + res.data[0]._id)
+
+                    axios.delete("http://localhost:42342/product/delete/" + id)
+                        .then(() => {
+                            alert("Item deleted");
+                            window.location.replace("/admin");
+                        })
+                })
 
 
-        const { status, data } = await axios.post("http://localhost:42342/approved/create",
-            {
-                title: title,
-                category: category,
-                description: description,
-                features: features,
-                applications: applications,
-                images: images,
-                document: document,
-                rotation: rotation,
+        }
+        else {
 
-            }).then(res => {
-                alert("Item inserted");
-                window.location.replace("/admin");
-                console.log(res.data);
-                var id = details[0]._id;
-                console.log(id);
-                axios.delete("http://localhost:42342/product/delete/" + id)
-                    .then(() => {
-                        alert("Item deleted");
-                        window.location.replace("/admin");
-                    })
-            })
 
+            const { status, data } = await axios.post("http://localhost:42342/approved/create",
+                {
+                    title: title,
+                    category: category,
+                    description: description,
+                    features: features,
+                    applications: applications,
+                    images: images,
+                    document: document,
+                    rotation: rotation,
+
+                }).then(res => {
+                    alert("Item inserted");
+                    window.location.replace("/admin");
+                    console.log(res.data);
+                    var id = details[0]._id;
+                    console.log(id);
+                    axios.delete("http://localhost:42342/product/delete/" + id)
+                        .then(() => {
+                            alert("Item deleted");
+                            window.location.replace("/admin");
+                        })
+                })
+        }
     }
 
     async function onReject() {
@@ -148,6 +173,7 @@ function Product() {
                     <div className='col-md-6' style={{ border: '1px solid black' }}>
                         <div className='row' style={{ margin: 'auto 0', border: '1px solid black' }}>
                             <div className='col-md-3' style={{ border: '1px solid black', width: '50%' }}>
+
                                 <img src={image1} style={{ width: '100%', height: '100%', margin: 'auto' }} />
                             </div>
                             <div className='col-md-3' style={{ border: '1px solid black', width: '50%' }}>
@@ -174,7 +200,7 @@ function Product() {
                         <div className='rotation' style={{ margin: 'auto', padding: '20%' }}>
 
                         </div>
-                        <Button className='accept' onClick={onAccept}>Accept</Button>
+                        <Button className='accept' onClick={onAccept}>Accept</Button><br/>
                         <Button1 className='reject' onClick={onReject}>Reject</Button1>
 
 
@@ -205,21 +231,21 @@ function Product() {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li className="nav-item">
+                            <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" to="/" style={{ color: '#fff' }}>Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/about" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>About</Link>
+                                    <a className="nav-link" href="/#about" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>About</a>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/products" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>Products</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/contact" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>Contact</Link>
+                                    <a className="nav-link" href="/#contact" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>Contact</a>
                                 </li>
                             </ul>
                             <form className="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <Link to="/login"><button className="btn btn-primary " style={{ width: '150px' }} type="button">Login</button></Link>
+                                <Link to="/login"><button className="btn btn-primary " style={{ width: '150px' }} type="button">Log out</button></Link>
                             </form>
                         </div>
                     </div>
@@ -228,7 +254,9 @@ function Product() {
                     {proDetails}
                 </div>
 
-
+                <footer>
+                    <div className="container-fluid">EAPL&copy;Electronics Automation Private Limited</div>
+                </footer>
             </div>
         </React.Fragment>
     )

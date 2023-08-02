@@ -7,14 +7,14 @@ function Login() {
         var username = document.getElementById("email").value;
         var password = document.getElementById("password").value;
         const role = "staff";
-        authorize(username,password,role);
+        authorize(username, password, role);
     }
-    function login2(){
+    function login2() {
         var username = document.getElementById("email1").value;
         console.log(username);
         var password = document.getElementById("password1").value;
         const role = "admin";
-        authorize(username, password,role);
+        authorize(username, password, role);
     }
     async function authorize(username, password, role) {
         const status = await axios.post("http://localhost:42342/user/login/", {
@@ -27,7 +27,7 @@ function Login() {
                 if (res.data.role != role) {
                     alert("You are not authorized");
                 }
-                else if(res.data.role == "staff"){
+                else if (res.data.role == "staff") {
                     window.location.replace("/staff");
                 } else if (res.data.role == "admin") {
                     window.location.replace("/admin");
@@ -66,13 +66,13 @@ function Login() {
                                     <Link className="nav-link active" aria-current="page" to="/" style={{ color: '#fff' }}>Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/about" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>About</Link>
+                                    <a className="nav-link" href="/#about" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>About</a>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/products" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>Products</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/contact" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>Contact</Link>
+                                    <a className="nav-link" href="/#contact" tabIndex="-1" aria-disabled="true" style={{ color: '#fff' }}>Contact</a>
                                 </li>
                             </ul>
 
@@ -149,6 +149,9 @@ function Login() {
                         </div>
                     </div>
                 </div>
+                <footer>
+                    <div className="container-fluid">EAPL&copy;Electronics Automation Private Limited</div>
+                </footer>
             </div>
         </React.Fragment>
     )
